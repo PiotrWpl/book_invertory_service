@@ -1,8 +1,9 @@
 /*jslint node: true */
 'use strict';
 
-var express = require('express')
-var app = express()
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
 
 function logRequest (req, res, next) {
   console.log('logRequest', new Date());
@@ -16,15 +17,24 @@ function authRequest (req, res, next) {
 
 app.use(logRequest);
 app.use(authRequest);
+app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
-  console.log('Hello World')
-  res.send('Hello World!')
-})
+  console.log('Hello World');
+  res.send('Hello World!');
+});
+
+app.post('/stock', function (req, res) {
+
+  res.json({
+    isbn : req.body.isbn,
+    count : req.body.count
+  });
+});
 
 app.get('/err', function (req, res) {
   throw new Error('Forced error');
-})
+});
 
 app.use(function (req, res, next) {
   var err = new Error('Not found');
@@ -35,11 +45,9 @@ app.use(function (req, res, next) {
 
 app.use(function (err, req, res, next) {
   var status = err.status || 500;
-  console.error(status + " | " + err.stack)
+  console.error(status + " | " + err.stack);
   res.status(status).send(err.message);
   next();
 });
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
-})
+module.exports = app;
