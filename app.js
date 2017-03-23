@@ -10,11 +10,12 @@ const MongoClient = require('mongodb').MongoClient
 // Connection URL
 const url = 'mongodb://localhost:27017/testapp';
 
-var collectionPromise = MongoClient.connect(url).then(function (db) {
-  return db.collection('books');
-}).catch(function (err) {
-  console.error(err.stack);
-});
+var collectionPromise = MongoClient.connect(url)
+    .then(function (db) {
+      return db.collection('books');})
+    .catch(function (err) {
+      console.error(err.stack);
+    });
 
 function logRequest (req, res, next) {
   console.log('logRequest', new Date());
@@ -41,30 +42,33 @@ app.post('/stock', function (req, res, next) {
     count : req.body.count
   };
 
-  collectionPromise.then(function(collection) {
-    return collection.updateOne({isbn:data.isbn}, data, {upsert: true});
-  }).then(function() {
-    res.json(data);
-  }).catch(next);
+  collectionPromise
+    .then(function(collection) {
+      return collection.updateOne({isbn:data.isbn}, data, {upsert: true});})
+    .then(function() {
+      res.json(data);})
+    .catch(next);
 });
 
 app.get('/getAll', function (req, res, next) {
-  collectionPromise.then(function (collection) {
-    return collection.find().toArray();
-  }).then(function(docs) {
-      res.json(docs);
-  }).catch(next);
+  collectionPromise
+    .then(function (collection) {
+      return collection.find().toArray();})
+    .then(function(docs) {
+      res.json(docs);})
+    .catch(next);
 });
 
 app.post('/get', function (req, res, next) {
   var data = {
     isbn : req.body.isbn
   };
-  collectionPromise.then(function (collection) {
-    return collection.find({isbn:data.isbn}).toArray();
-  }).then(function(docs) {
-      res.json(docs);
-  }).catch(next);
+  collectionPromise
+    .then(function (collection) {
+      return collection.find({isbn:data.isbn}).toArray();})
+    .then(function(docs) {
+      res.json(docs);})
+    .catch(next);
 });
 
 app.get('/err', function (req, res, next) {
