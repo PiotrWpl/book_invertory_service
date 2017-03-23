@@ -1,9 +1,20 @@
 /*jslint node: true */
 'use strict';
 
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+
+const MongoClient = require('mongodb').MongoClient
+
+// Connection URL
+const url = 'mongodb://localhost:27017/testapp';
+
+var collection = null;
+
+MongoClient.connect(url, function(err, db) {
+  collection = db.collection('books');
+});
 
 function logRequest (req, res, next) {
   console.log('logRequest', new Date());
@@ -25,10 +36,26 @@ app.get('/', function (req, res) {
 });
 
 app.post('/stock', function (req, res) {
-
-  res.json({
+  var data = {
     isbn : req.body.isbn,
     count : req.body.count
+  };
+
+  collection.updateOne({isbn:data.isbn}, data, {upsert: true}, function(err, doc) { res.json(data);});
+});
+
+app.get('/getAll', function (req, res) {
+  collection.find().toArray(function(err, docs) {
+    res.json(docs);
+  });
+});
+
+app.post('/get', function (req, res) {
+  var data = {
+    isbn : req.body.isbn
+  };
+  collection.find({isbn:data.isbn}).toArray(function(err, docs) {
+    res.json(docs);
   });
 });
 
@@ -37,14 +64,14 @@ app.get('/err', function (req, res) {
 });
 
 app.use(function (req, res, next) {
-  var err = new Error('Not found');
+  const err = new Error('Not found');
   err.status = 404;
 
   next(err);
 });
 
 app.use(function (err, req, res, next) {
-  var status = err.status || 500;
+  const status = err.status || 500;
   console.error(status + " | " + err.stack);
   res.status(status).send(err.message);
   next();
