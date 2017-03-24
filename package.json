@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon src/server.js",
     "test": "mocha",
-    "lint": "jshint --exclude=node_modules/** src",
+    "lint": "jshint src",
     "test:xunit": "npm run test -- --reporter xunit"
   },
   "author": "",
