@@ -1,6 +1,10 @@
 {
   "name": "book_invertory_service",
   "version": "1.0.0",
+  "engines" : {
+    "node" : "6.10.1",
+    "npm" : "3.10.10"
+  },
   "description": "",
   "main": "src/server.js",
   "scripts": {
