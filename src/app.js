@@ -4,54 +4,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const error = require('./error');
+
 module.exports = stockRepository => {
   const app = express();
+  const routes = require('./routes')(stockRepository);
 
   app.use(bodyParser.json());
 
-  app.post('/stock', (req, res, next) => {
-    stockRepository.stockUp(req.body.isbn, req.body.count)
-      .then(data => res.json(data))
-      .catch(next);
-  });
+  app.post('/stock', routes.stockUp);
+  app.get('/stock', routes.findAll);
+  app.get('/stock/:isbn', routes.getCount);
 
-  app.get('/stock', (req, res, next) => {
-    stockRepository.findAll()
-      .then(data => res.json(data))
-      .catch(next);
-  });
-
-  app.get('/stock/:isbn', (req, res, next) => {
-    stockRepository.getCount(Number(req.params.isbn))
-      .then(count => {
-        if (count) {
-          res.json({count});
-        } else {
-          const err = new Error('No book with isbn');
-          err.status = 404;
-          next(err);
-        }
-      })
-      .catch(next);
-  });
-
-  app.get('/err', (req, res, next) => {
-    throw new Error('Forced error');
-  });
-
-  app.use((req, res, next) => {
-    const err = new Error('Not found');
-    err.status = 404;
-
-    next(err);
-  });
-
-  app.use((err, req, res, next) => {
-    const status = err.status || 500;
-    console.error(status + " | " + err.stack);
-    res.status(status).send(err.message);
-    next();
-  });
+  app.use(error.clientError);
+  app.use(error.serverError);
 
   return app;
 };
