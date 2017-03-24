@@ -4,8 +4,8 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const stockRepository = require('./stock_repository');
 
+var stockRepository;
 
 function logRequest (req, res, next) {
   console.log('logRequest', new Date());
@@ -65,4 +65,7 @@ app.use(function (err, req, res, next) {
   next();
 });
 
-module.exports = app;
+module.exports = function (injectedRepository) {
+  stockRepository = injectedRepository;
+  return app;
+};

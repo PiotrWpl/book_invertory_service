@@ -3,8 +3,9 @@
 
 const request = require('supertest');
 const express = require('express');
+const inMemoryStockRepository = require('../src/in_memory_stock_repository')();
 
-const app = require('../src/app');
+const app = require('../src/app')(inMemoryStockRepository);
 
 describe('Book invertory', () => {
   it ('allows to stock up the items', done => {
@@ -13,7 +14,6 @@ describe('Book invertory', () => {
       .post('/stock')
       .send(sendData)
       .expect(200)
-      .expect('Content-Type', /json/)
-      .expect(sendData, done);
+      .expect('Content-Type', /json/, done)
   });
 });
