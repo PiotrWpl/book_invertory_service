@@ -6,8 +6,8 @@ const express = require('express');
 
 const app = require('../src/app');
 
-describe('Book invertory', function () {
-  it ('allows to stock up the items', function (done) {
+describe('Book invertory', () => {
+  it ('allows to stock up the items', done => {
     var sendData = {isbn:323, count: 1};
     request(app)
       .post('/stock')

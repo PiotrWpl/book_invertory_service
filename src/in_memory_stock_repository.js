@@ -7,7 +7,7 @@ module.exports = function() {
         },
         stockUp: function (isbn, count) {
             var updated = false;
-            items.forEach(function(item) {
+            items.forEach(item => {
                 if(item.isbn === isbn) {
                     item.count = count;
                     updated = true;
@@ -23,7 +23,7 @@ module.exports = function() {
         },
         getCount: function (isbn) {
             var foundItemCount = null;
-            items.forEach(function(item) {
+            items.forEach(item => {
                 if(item.isbn === isbn) {
                     foundItemCount = item.count;
                 }

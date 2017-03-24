@@ -23,21 +23,19 @@ app.use(bodyParser.json());
 
 app.post('/stock', function (req, res, next) {
   stockRepository.stockUp(req.body.isbn, req.body.count)
-    .then(function (data) {
-      res.json(data)})
+    .then(data => res.json(data))
     .catch(next);
 });
 
 app.get('/stock', function (req, res, next) {
   stockRepository.findAll()
-    .then(function (data) {
-      res.json(data)})
+    .then(data => res.json(data))
     .catch(next);
 });
 
 app.get('/stock/:isbn', function (req, res, next) {
   stockRepository.get(Number(req.params.isbn))
-    .then(function (data) {
+    .then(data => {
       if (data) {
         res.json(data)
       } else {
