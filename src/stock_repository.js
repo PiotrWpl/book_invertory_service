@@ -1,7 +1,6 @@
-/*jslint node: true */
 'use strict';
 
-const MongoClient = require('mongodb').MongoClient
+const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017/testapp';
 
 const collectionPromise = MongoClient.connect(url, {bufferMaxEntries: 0})

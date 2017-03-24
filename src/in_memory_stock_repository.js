@@ -1,8 +1,7 @@
-/*jslint node: true */
 'use strict';
 
 module.exports = () => {
-  const items = [];
+  var items = [];
 
   return {
     _items: state => items = state,

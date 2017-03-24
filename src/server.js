@@ -1,4 +1,3 @@
-/*jslint node: true */
 'use strict';
 
 const stockRepository = require('./stock_repository');
