@@ -21,12 +21,8 @@ exports.findAll = () => {
     .then(collection => collection.find().toArray());
 };
 
-exports.getCount = () => {
+exports.getCount = (isbn) => {
   return collectionPromise
-    .then(collection => collection.find().toArray().length);
-};
-
-exports.get = (isbn) => {
-  return collectionPromise
-    .then(collection => collection.find({isbn}).limit(1).next());
+    .then(collection => collection.find({isbn}).limit(1).next())
+    .then(result => result ? result.count : null);
 };

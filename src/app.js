@@ -22,10 +22,10 @@ module.exports = stockRepository => {
   });
 
   app.get('/stock/:isbn', (req, res, next) => {
-    stockRepository.get(Number(req.params.isbn))
-      .then(data => {
-        if (data) {
-          res.json(data)
+    stockRepository.getCount(Number(req.params.isbn))
+      .then(count => {
+        if (count) {
+          res.json({count});
         } else {
           const err = new Error('No book with isbn');
           err.status = 404;
