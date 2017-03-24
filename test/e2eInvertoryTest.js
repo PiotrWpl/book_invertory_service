@@ -4,7 +4,7 @@
 const request = require('supertest');
 const express = require('express');
 
-const app = require('../app');
+const app = require('../src/app');
 
 describe('Book invertory', function () {
   it ('allows to stock up the items', function (done) {
