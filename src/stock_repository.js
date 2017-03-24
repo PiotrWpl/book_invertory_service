@@ -4,7 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/testapp';
 
 const collectionPromise = MongoClient.connect(url, {bufferMaxEntries: 0})
-    .then(db => db.collection('books'))
+    .then(db => db.collection('books_pwalc'))
     .catch(err => console.error(err.stack));
 
 exports.stockUp = (isbn, count) => {
