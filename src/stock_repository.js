@@ -4,11 +4,11 @@
 const MongoClient = require('mongodb').MongoClient
 const url = 'mongodb://localhost:27017/testapp';
 
-var collectionPromise = MongoClient.connect(url, {bufferMaxEntries: 0})
+const collectionPromise = MongoClient.connect(url, {bufferMaxEntries: 0})
     .then(db => db.collection('books'))
     .catch(err => console.error(err.stack));
 
-exports.stockUp = function (isbn, count) {
+exports.stockUp = (isbn, count) => {
   const data = {isbn, count};
 
   return collectionPromise
@@ -16,17 +16,17 @@ exports.stockUp = function (isbn, count) {
     .then(() => data);
 };
 
-exports.findAll = function () {
+exports.findAll = () => {
   return collectionPromise
     .then(collection => collection.find().toArray());
 };
 
-exports.getCount = function () {
+exports.getCount = () => {
   return collectionPromise
     .then(collection => collection.find().toArray().length);
 };
 
-exports.get = function (isbn) {
+exports.get = (isbn) => {
   return collectionPromise
     .then(collection => collection.find({isbn}).limit(1).next());
 };

@@ -1,14 +1,14 @@
 /*jslint node: true */
 'use strict';
 
-var assert = require('assert');
-var sum = require('./sum');
+const assert = require('assert');
+const sum = require('./sum');
 
-describe('Math in JS', function () {
-  it ('should support addition', function (done) {
-    setTimeout(function() {
+describe('Math in JS', () => {
+  it ('should support addition',  done => {
+    setTimeout(() => {
       assert.equal(sum(1,1), 2);
       done();
-    }, 400);
+    }, 100);
   });
 });

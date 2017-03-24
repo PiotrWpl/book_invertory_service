@@ -1,14 +1,12 @@
 /*jslint node: true */
 'use strict';
 
-module.exports = function() {
-    var items = [];
+module.exports = () => {
+    const items = [];
 
     return {
-        _items: function(state) {
-            items = state;
-        },
-        stockUp: function (isbn, count) {
+        _items: state => items = state,
+        stockUp: (isbn, count) => {
             var updated = false;
             items.forEach(item => {
                 if(item.isbn === isbn) {
@@ -21,10 +19,8 @@ module.exports = function() {
             }
             return Promise.resolve();
         },
-        findAll: function () {
-            return Promise.resolve(items);
-        },
-        getCount: function (isbn) {
+        findAll: () => Promise.resolve(items),
+        getCount: isbn => {
             var foundItemCount = null;
             items.forEach(item => {
                 if(item.isbn === isbn) {

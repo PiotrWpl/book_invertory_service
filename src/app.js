@@ -7,33 +7,21 @@ const bodyParser = require('body-parser');
 
 var stockRepository;
 
-function logRequest (req, res, next) {
-  console.log('logRequest', new Date());
-  next();
-};
-
-function authRequest (req, res, next) {
-  console.log('authRequest', new Date());
-  next();
-};
-
-app.use(logRequest);
-app.use(authRequest);
 app.use(bodyParser.json());
 
-app.post('/stock', function (req, res, next) {
+app.post('/stock', (req, res, next) => {
   stockRepository.stockUp(req.body.isbn, req.body.count)
     .then(data => res.json(data))
     .catch(next);
 });
 
-app.get('/stock', function (req, res, next) {
+app.get('/stock', (req, res, next) => {
   stockRepository.findAll()
     .then(data => res.json(data))
     .catch(next);
 });
 
-app.get('/stock/:isbn', function (req, res, next) {
+app.get('/stock/:isbn', (req, res, next) => {
   stockRepository.get(Number(req.params.isbn))
     .then(data => {
       if (data) {
@@ -47,25 +35,25 @@ app.get('/stock/:isbn', function (req, res, next) {
     .catch(next);
 });
 
-app.get('/err', function (req, res, next) {
+app.get('/err', (req, res, next) => {
   throw new Error('Forced error');
 });
 
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   const err = new Error('Not found');
   err.status = 404;
 
   next(err);
 });
 
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   const status = err.status || 500;
   console.error(status + " | " + err.stack);
   res.status(status).send(err.message);
   next();
 });
 
-module.exports = function (injectedRepository) {
+module.exports = injectedRepository => {
   stockRepository = injectedRepository;
   return app;
 };
