@@ -28,17 +28,24 @@ app.post('/stock', function (req, res, next) {
     .catch(next);
 });
 
-app.get('/getAll', function (req, res, next) {
+app.get('/stock', function (req, res, next) {
   stockRepository.getAll()
     .then(function (data) {
       res.json(data)})
     .catch(next);
 });
 
-app.post('/get', function (req, res, next) {
-  stockRepository.get(req.body.isbn)
+app.get('/stock/:isbn', function (req, res, next) {
+  stockRepository.get(Number(req.params.isbn))
     .then(function (data) {
-      res.json(data)})
+      if (data) {
+        res.json(data)
+      } else {
+        const err = new Error('No book with isbn');
+        err.status = 404;
+        next(err);
+      }
+    })
     .catch(next);
 });
 
