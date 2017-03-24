@@ -1,6 +1,9 @@
 'use strict';
 
 module.exports = stockRepository => ({
+  getFavicon : (req, res, next) => {
+    res.status(404).send('');
+  },
   stockUp : (req, res, next) => {
     stockRepository.stockUp(req.body.isbn, req.body.count)
       .then(data => res.json(data))

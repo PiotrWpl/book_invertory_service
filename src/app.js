@@ -15,6 +15,7 @@ module.exports = stockRepository => {
 
   app.use(bodyParser.json());
 
+  app.get('/favicon.ico', routes.getFavicon);
   app.post('/stock', routes.stockUp);
   app.get('/stock', routes.findAll);
   app.get('/stock/:isbn', routes.getCount);
