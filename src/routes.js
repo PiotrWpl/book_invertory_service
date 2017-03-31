@@ -18,7 +18,14 @@ module.exports = stockRepository => ({
     stockRepository.getCount(Number(req.params.isbn))
       .then(count => {
         if (count) {
-          res.json({count});
+          res.format({
+            html: function(){
+              res.send('<p>Only ' + count + ' books left</p>');
+            },
+            json: function(){
+              res.json({count});
+            }
+          });
         } else {
           const err = new Error('No book with isbn');
           err.status = 404;

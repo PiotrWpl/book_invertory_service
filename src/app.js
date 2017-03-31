@@ -6,12 +6,12 @@ const bodyParser = require('body-parser');
 const error = require('./error');
 const middleware = require('./middleware');
 
-module.exports = stockRepository => {
+module.exports = (stockRepository, authMiddleware) => {
   const app = express();
   const routes = require('./routes')(stockRepository);
 
   app.use(middleware.logRequest);
-  app.use(middleware.auth);
+  app.use(authMiddleware);
 
   app.use(bodyParser.json());
 

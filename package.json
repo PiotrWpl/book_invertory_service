@@ -1,9 +1,9 @@
 {
   "name": "book_invertory_service",
   "version": "1.0.0",
-  "engines" : {
-    "node" : "6.10.1",
-    "npm" : "3.10.10"
+  "engines": {
+    "node": "6.10.1",
+    "npm": "3.10.10"
   },
   "description": "",
   "main": "src/server.js",
@@ -12,13 +12,15 @@
     "test": "mocha",
     "lint": "jshint src",
     "test:xunit": "npm run test -- --reporter xunit",
-    "watch" : "nodemon src/server.js"
+    "watch": "nodemon src/server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "basic-auth": "1.1.0",
     "body-parser": "1.17.1",
     "express": "4.15.2",
+    "jwt-simple": "0.5.1",
     "mongodb": "2.2.25"
   },
   "devDependencies": {

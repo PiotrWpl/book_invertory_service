@@ -3,8 +3,8 @@
 const request = require('supertest');
 const express = require('express');
 const inMemoryStockRepository = require('../src/in_memory_stock_repository')();
-
-const app = require('../src/app')(inMemoryStockRepository);
+const noAuthMiddleware = (req, res, next) => next();
+const app = require('../src/app')(inMemoryStockRepository, noAuthMiddleware);
 
 describe('Book invertory', () => {
   it ('allows to stock up the items', done => {
